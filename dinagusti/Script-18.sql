@@ -1,0 +1,1702 @@
+------------------- OMSET TOKO AB2 -------------------
+WITH S AS ( SELECT wil wils, depo depos, cust custs, 
+					SUM(CASE WHEN thn = 2024 THEN rp ELSE 0 END)/12000000 AS Rp_24,
+					SUM(CASE WHEN thn = 2025 AND bln = 1 THEN rp ELSE 0 END)/1000000 AS Rp_1_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 2 THEN rp ELSE 0 END)/1000000 AS Rp_2_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 3 THEN rp ELSE 0 END)/1000000 AS Rp_3_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 4 THEN rp ELSE 0 END)/1000000 AS Rp_4_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 5 THEN rp ELSE 0 END)/1000000 AS Rp_5_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 6 THEN rp ELSE 0 END)/1000000 AS Rp_6_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 7 THEN rp ELSE 0 END)/1000000 AS Rp_7_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 8 THEN rp ELSE 0 END)/1000000 AS Rp_8_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 9 THEN rp ELSE 0 END)/1000000 AS Rp_9_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 11 THEN rp ELSE 0 END)/1000000 AS Rp_10_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 11 THEN rp ELSE 0 END)/1000000 AS Rp_11_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 12 THEN rp ELSE 0 END)/1000000 AS Rp_12_25
+			FROM DtCMOBI.OmsUmum
+			WHERE divisi = '11-AB2' --AND Kelpteam  = '36-TEAM BINTANG' AND HitungLT = 1
+			GROUP BY 1, 2, 3
+			HAVING Rp_24 >= 20 
+					OR Rp_1_25 >= 20 OR Rp_2_25 >= 20 OR Rp_3_25 >= 20 OR Rp_4_25 >= 20
+					OR Rp_5_25 >= 20 OR Rp_6_25 >= 20 OR Rp_7_25 >= 20 OR Rp_8_25 >= 20
+					OR Rp_9_25 >= 20 OR Rp_10_25 >= 20 OR Rp_11_25 >= 20 OR Rp_12_25 >= 20),
+	T AS ( SELECT wil, depo, cust custt,
+					CASE WHEN grupgab = 'GGAW-WAFFLE TANGO' THEN 'Waffle'
+						 WHEN grupgab = 'GGFM-TWL' THEN 'Walut'
+						 WHEN grupgab = 'GGBI-IMPERIAL' THEN 'Imperial'
+						 WHEN grupgab = 'GGAT-FULLO' THEN 'Fullo'
+						 END AS KP,
+					thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+			FROM DtCMOBI.OmsUmum
+			WHERE grupgab IN ('GGAW-WAFFLE TANGO', 'GGBI-IMPERIAL', 'GGFM-TWL', 'GGAT-FULLO')
+			GROUP BY 1, 2, 3, 4, 5, 6
+			UNION
+			SELECT wil, depo, cust, 'Wafer' KP, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+			FROM DtCMOBI.OmsUmum
+			WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO')
+			GROUP BY 1, 2, 3, 4, 5, 6
+			UNION
+			SELECT wil, depo, cust, 'Wa.hh' KP, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+			FROM DtCMOBI.OmsUmum
+			WHERE grupgab  = 'GGAW-WAFFLE TANGO' AND itemgb LIKE '%WA.HH%'
+			GROUP BY 1, 2, 3, 4, 5, 6)
+SELECT wil, depo, KP, thn, bln, COUNT(DISTINCT custt) AS LT, SUM(KRT) AS Qty, SUM(Jt) AS rp
+FROM T AS t
+LEFT JOIN (SELECT DISTINCT wils, depos, custs FROM S) AS s
+		ON t.custt = s.custs
+GROUP BY 1, 2, 3, 4, 5
+
+
+
+
+------------------- OMSET TOKO AB2 -------------------
+WITH S AS ( SELECT wil wils, depo depos, cust custs, 
+					SUM(CASE WHEN thn = 2024 THEN rp ELSE 0 END)/12000000 AS Rp_24,
+					SUM(CASE WHEN thn = 2025 AND bln = 1 THEN rp ELSE 0 END)/1000000 AS Rp_1_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 2 THEN rp ELSE 0 END)/1000000 AS Rp_2_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 3 THEN rp ELSE 0 END)/1000000 AS Rp_3_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 4 THEN rp ELSE 0 END)/1000000 AS Rp_4_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 5 THEN rp ELSE 0 END)/1000000 AS Rp_5_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 6 THEN rp ELSE 0 END)/1000000 AS Rp_6_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 7 THEN rp ELSE 0 END)/1000000 AS Rp_7_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 8 THEN rp ELSE 0 END)/1000000 AS Rp_8_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 9 THEN rp ELSE 0 END)/1000000 AS Rp_9_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 11 THEN rp ELSE 0 END)/1000000 AS Rp_10_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 11 THEN rp ELSE 0 END)/1000000 AS Rp_11_25,
+					SUM(CASE WHEN thn = 2025 AND bln = 12 THEN rp ELSE 0 END)/1000000 AS Rp_12_25
+			FROM DtCMOBI.OmsUmum
+			WHERE divisi = '11-AB2' --AND Kelpteam  = '36-TEAM BINTANG' AND HitungLT = 1
+			GROUP BY 1, 2, 3
+			HAVING Rp_24 >= 20 
+					OR Rp_1_25 >= 20 OR Rp_2_25 >= 20 OR Rp_3_25 >= 20 OR Rp_4_25 >= 20
+					OR Rp_5_25 >= 20 OR Rp_6_25 >= 20 OR Rp_7_25 >= 20 OR Rp_8_25 >= 20
+					OR Rp_9_25 >= 20 OR Rp_10_25 >= 20 OR Rp_11_25 >= 20 OR Rp_12_25 >= 20),
+	T AS ( SELECT wil, depo, cust custt,
+					CASE WHEN grupgab = 'GGAP-WAFER TANGO' THEN 'Wafer'
+						 WHEN grupgab = 'GGAW-WAFFLE TANGO' THEN 'Waffle'
+						 WHEN grupgab = 'GGFM-TWL' THEN 'Walut'
+						 WHEN grupgab = 'GGBI-IMPERIAL' THEN 'Imperial'
+						 WHEN grupgab = 'GGAT-FULLO' THEN 'Fullo'
+						 END AS KP,
+					thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+			FROM DtCMOBI.OmsUmum
+			WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGBI-IMPERIAL', 'GGFM-TWL', 'GGAT-FULLO')
+			GROUP BY 1, 2, 3, 4, 5, 6
+			UNION
+			SELECT wil, depo, cust, 'Tango' KP, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+			FROM DtCMOBI.OmsUmum
+			WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO')
+			GROUP BY 1, 2, 3, 4, 5, 6
+			UNION
+			SELECT wil, depo, cust, 'Wa.hh' KP, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+			FROM DtCMOBI.OmsUmum
+			WHERE grupgab  = 'GGAW-WAFFLE TANGO' AND itemgb LIKE '%WA.HH%'
+			GROUP BY 1, 2, 3, 4, 5, 6)
+SELECT wil, depo, KP, thn, bln, COUNT(DISTINCT custt) AS LT, SUM(KRT) AS Qty, SUM(Jt) AS rp
+FROM T AS t
+RIGHT JOIN (SELECT DISTINCT wils, depos, custs FROM S) AS s
+		ON t.custt = s.custs
+GROUP BY 1, 2, 3, 4, 5
+
+
+
+
+
+
+--------------------------------- OMSET FESTIVE NON FESTIVE AB2 UPA ---------------------------------
+SELECT 'UM' AS market, area, thn, bln,
+		CASE WHEN itemgb IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+						 THEN 'Festive'
+			 WHEN grup IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000') THEN 'Festive'
+			 WHEN kelompok = 'K1-TANGO EMOJI POUCH' THEN 'FESTIVE'
+			 ELSE FlagFestive
+		END AS Ket,
+		SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE Divisi = '11-AB2'
+GROUP BY 1, 2, 3, 4, 5
+UNION
+SELECT 'P90' AS market, area, thn, bln,
+		CASE WHEN itemgb IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+						 THEN 'Festive'
+			 WHEN grup IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000') THEN 'Festive'
+			 WHEN kelompok = 'K1-TANGO EMOJI POUCH' THEN 'FESTIVE'
+			 ELSE FlagFestive
+		END AS Ket,
+		SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE Divisi = '11-AB2'
+GROUP BY 1, 2, 3, 4, 5
+
+
+
+--------------------------------- OMSET CS2 ---------------------------------
+SELECT 'UM' AS market, area, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE Supplier = 'CS2'
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT 'P90' AS market, area, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE Supplier = 'CS2'	
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+
+
+SELECT 'UM' AS ketmarket, 
+		CASE WHEN SUBSTRING(depo, 6, 2) = 'DP' THEN 'DEPO' ELSE 'AGEN' END AS DEPO,
+		area,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS KRT_25,
+		SUM(CASE WHEN thn = 2026 AND bln < 4 THEN qty_krt ELSE 0 END)/3 AS KRT_26
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W2-Wafer 2000'
+GROUP BY 1, 2, 3
+UNION
+SELECT 'P90' AS ketmarket, 
+		CASE WHEN SUBSTRING(depo, 6, 3) = 'D90' THEN 'DEPO' ELSE 'AGEN' END AS DEPO,
+		area,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS KRT_25,
+		SUM(CASE WHEN thn = 2026 AND bln < 4 THEN qty_krt ELSE 0 END)/3 AS KRT_26
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE chKatLevel1 = 'W2-Wafer 2000'
+GROUP BY 1, 2, 3
+
+
+
+
+with S as (SELECT wil, cust, itemgb, SUM(qty_krt) AS KRT, SUM(rp) AS Jt
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT itemgb itemgbb, chketsubkp FROM DtDWHBI.VW_BICMOProduct) AS B
+		ON A.itemgb = B.itemgbb
+WHERE thn = 2026 AND bln = 3 AND grupgab = 'GGAP-WAFER TANGO' AND chketsubkp = 'WAFER TANGO POUCH'
+GROUP BY 1, 2, 3
+HAVING KRT != 0)
+SELECT wil, cust, itemgb, SUM(Jt)/SUM(KRT) AS PL, SUM(KRT) as oms
+FROM S
+GROUP BY 1, 2, 3
+ORDER BY 4 ASC
+
+
+
+
+
+
+WITH S AS (
+SELECT kelpitem, 'UM' AS market,
+		SUM(CASE WHEN thn = 2024 THEN qty_krt ELSE 0 END)/12 AS krt_24,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS krt_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS krt_26
+FROM DtCMOBI.OmsUmum
+WHERE chkatlevel1 = 'W4-Wafer 1000'
+GROUP BY 1, 2
+UNION
+SELECT kelpitem, 'P90' AS market,
+		SUM(CASE WHEN thn = 2024 THEN qty_krt ELSE 0 END)/12 AS krt_24,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS krt_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS krt_26
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE chkatlevel1 = 'W4-Wafer 1000'
+GROUP BY 1, 2
+)
+SELECT kelpitem, ROUND(SUM(krt_24), 0) AS Rt_24, ROUND(SUM(krt_25), 0) AS Rt_25, ROUND(SUM(krt_26), 0) AS Rt_26
+FROM S
+GROUP BY 1
+ORDER BY 1
+
+
+
+
+
+
+
+SELECT 'UM' AS market, chketsubkp, thn, SUM(qty_krt) AS KRT,SUM(rp)/1000000 AS JtRp
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT chkditemgb, chketsubkp FROM DtDWHBI.VW_BICMOProduct) AS B
+		ON LEFT(A.itemgb, 4) = B.chkditemgb
+WHERE Grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND thn < 2026
+GROUP BY 1, 2, 3
+UNION
+SELECT 'P90' AS market, chketsubkp, thn, SUM(qty_krt) AS KRT,SUM(rp)/1000000 AS JtRp
+FROM DtDWHBI.VW_BICMOP90Daily AS A
+INNER JOIN (SELECT DISTINCT chkditemgb, chketsubkp FROM DtDWHBI.VW_BICMOProduct) AS B
+		ON LEFT(A.itemgb, 4) = B.chkditemgb
+WHERE Grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND thn < 2026
+GROUP BY 1, 2, 3
+
+
+
+
+SELECT wil, depo, kelompok, SUM(qty_krt)/2 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE (chkatlevel1 = 'W2-Wafer 2000'
+		OR
+	   grup LIKE ANY (('GN-%'), ('RG-%')))
+		AND thn = 2026 AND bln IN (2, 3)
+GROUP BY 1, 2, 3
+
+
+SELECT wil, cust, CASE WHEN grupgab IN ('GGCD-SGF', 'GGCA-PGF') THEN 'FORMULA' ELSE 'OTHERS' END AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln > 6 THEN rp ELSE 0 END)/6000000 AS SM2_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 1 THEN rp ELSE 0 END)/1000000 AS Jan_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 2 THEN rp ELSE 0 END)/1000000 AS Feb_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 3 THEN rp ELSE 0 END)/1000000 AS Mar_26
+FROM DtCMOBI.OmsUmum
+WHERE cust IN ('2702-22060924-CV. SAHABAT PUTRA', '2803-23174142-CV SINAR AGUNG YOGYAKARTA') AND divisi = '11-AB2'
+GROUP BY 1, 2, 3
+ORDER BY 2, 3
+
+
+
+
+SELECT wil, thn, bln, itemgb, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGFP-TWLFST', 'GGFQ-IMPERIALFST', 'GGBZ-FULLOFST', 'GGFB-MBRFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFZ-TANGO EMOJI FESTIVE')
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT wil, thn, bln, itemgb, SUM(qty_krt) AS KRT
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE grupgab  IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGFP-TWLFST', 'GGFQ-IMPERIALFST', 'GGBZ-FULLOFST', 'GGFB-MBRFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFZ-TANGO EMOJI FESTIVE')
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+
+------------------------ TREND OMSET 
+SELECT 'UM' AS market, thn, bln,
+		CASE WHEN chKatLevel1 IN ('W3-Wafer 500', 'W4-Wafer 1000', 'W2-Wafer 2000') THEN grup
+			 WHEN grupgab = 'GGBI-IMPERIAL' THEN KELPITEM
+			 WHEN grupgab = 'GGAT-FULLO' THEN CONCAT(LEFT(GRUP, 2), kelompok)
+			 ELSE itemgb END AS ket,		
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAT-FULLO', 'GGBI-IMPERIAL')
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT 'P90' AS market, thn, bln,
+		CASE WHEN chKatLevel1 IN ('W3-Wafer 500', 'W4-Wafer 1000', 'W2-Wafer 2000') THEN grup
+			 WHEN grupgab = 'GGBI-IMPERIAL' THEN KELPITEM
+			 WHEN grupgab = 'GGAT-FULLO' THEN CONCAT(LEFT(GRUP, 2), kelompok)
+			 ELSE itemgb END AS ket,		
+		SUM(qty_krt) AS KRT
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAT-FULLO', 'GGBI-IMPERIAL')
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT chmarket, intahun, inbulan,
+		CASE WHEN KatLevel1 IN ('W3-Wafer 500', 'W4-Wafer 1000', 'W2-Wafer 2000') THEN grup
+			 WHEN grupgab = 'GGBI-IMPERIAL' THEN KELPITEM
+			 WHEN grupgab = 'GGAT-FULLO' THEN CONCAT(LEFT(GRUP, 2), kelompok)
+			 ELSE item END AS ket,		
+		SUM(deqtykrt) AS KRT
+FROM DtDWHBI.VW_OmsTokoItemHis2017 AS A
+INNER JOIN (SELECT DISTINCT itemgb, kelpitem FROM DtCMOBI.OmsUmum) AS B
+		ON LEFT(A.item, 4) = LEFt(B.itemgb, 4)
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAT-FULLO', 'GGBI-IMPERIAL') AND intahun = 2023
+GROUP BY 1, 2, 3, 4
+
+
+
+
+--------------------------- OMSET APRL 1T---------------------------
+SELECT 'UM' AS market,
+		CASE WHEN grupgab IN ('GGCD-SGF', 'GGCA-PGF') THEN grup ELSE grupgab END AS KET,
+		flagfestive, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2' AND thn = 2026 AND bln = 4
+GROUP BY 1, 2, 3
+UNION
+SELECT 'P90' AS market,
+		CASE WHEN grupgab IN ('GGCD-SGF', 'GGCA-PGF') THEN grup ELSE grupgab END AS KET,
+		flagfestive, SUM(rp)/1000000 AS Jt
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE divisi = '11-AB2' AND thn = 2026 AND bln = 4
+GROUP BY 1, 2, 3
+
+
+----------------- TREND OMS WAFFLE MEETING MARKETING
+SELECT 'UMUM' AS market, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE grupgab = 'GGAW-WAFFLE TANGO' AND itemgb NOT LIKE '%WA.HH%'
+GROUP BY 1, 2, 3
+UNION
+SELECT 'P90' AS market, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE grupgab = 'GGAW-WAFFLE TANGO' AND itemgb NOT LIKE '%WA.HH%'
+GROUP BY 1, 2, 3
+UNION
+SELECT chmarket, intahun, inbulan, sum(deqtykrt) AS krt, SUM(derp)/1000000 AS Jt
+FROM DtDWHBI.VW_OmsTokoItemHis2017
+WHERE grupgab = 'GGAW-WAFFLE TANGO' AND intahun IN (2023, 2022)
+GROUP BY 1, 2, 3
+
+
+
+
+
+------------------- MONIORING GOSOK-GOSOK -------------------
+SELECT wil, itemgb, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE grupgab = 'GGAW-WAFFLE TANGO' AND itemgb LIKE '%8B PRM'
+		AND ((thn = 2025 AND bln > 9) OR (thn = 2026 AND bln < 5))
+GROUP BY 1, 2
+UNION
+SELECT wil, itemgb, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE grupgab = 'GGAW-WAFFLE TANGO' AND itemgb LIKE '%8B PRM'
+		AND ((thn = 2025 AND bln > 9) OR (thn = 2026 AND bln < 5))
+GROUP BY 1, 2
+
+
+
+
+------------------- MONIORING BERKAH HAJATAN TANGO -------------------
+SELECT wil, KelpItem, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE (chKatLevel2 = 'W04-WFT 7000' OR kelompok = 'D1-WAFER TANGO COCONUT 7000')
+		AND thn = 2026
+GROUP BY 1, 2
+UNION
+SELECT wil, KelpItem, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE (chKatLevel2 = 'W04-WFT 7000' OR kelompok = 'D1-WAFER TANGO COCONUT 7000')
+		AND thn = 2026
+GROUP BY 1, 2
+
+
+
+
+WITH S AS (
+SELECT cust AS Toko, SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum AS A
+LEFT JOIN (SELECT DISTINCT chkditemgb, chketsubkp, chkdkp FROM DtDWHBI.VW_mLoadKelpItem) AS B
+		ON LEFT(A.itemgb, 4) = B.chkditemgb
+WHERE thn = 2026 AND bln < 4
+		AND chketsubkp = 'WAFER TANGO 7000'
+GROUP BY 1
+HAVING KRT >= 50
+)
+SELECT wil, depo, cust, chketsubkp,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END) AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln < 4 THEN qty_krt ELSE 0 END)/3 AS Q1_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 4 THEN qty_krt ELSE 0 END) AS Apr_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END) AS Mei_26
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT Toko FROM S) AS B
+		ON A.cust = B.Toko
+INNER JOIN (SELECT DISTINCT chkditemgb, chketsubkp, chkdkp FROM DtDWHBI.VW_mLoadKelpItem) AS C
+		ON LEFT(A.itemgb, 4) = C.chkditemgb
+WHERE chketsubkp = 'WAFER TANGO 7000' OR itemgb = '7283-WAFFLE TANGO CHOCO HAZELNUT 70 GR'
+GROUP BY 1, 2, 3, 4
+
+
+
+
+SELECT wil, depo, cust,	
+		COUNT(DISTINCT CASE WHEN bln = 4 AND qty_krt > 0 THEN tgl ELSE NULL END) AS RO_4,
+		COUNT(DISTINCT CASE WHEN bln = 5 AND qty_krt > 0 THEN tgl ELSE NULL END) AS RO_5,
+		COUNT(DISTINCT CASE WHEN qty_krt > 0 THEN tgl ELSE NULL END) AS RO,
+		SUM(CASE WHEN bln = 4 THEN qty_krt ELSE 0 END) AS KRt_4,
+		SUM(CASE WHEN bln = 5 THEN qty_krt ELSE 0 END) AS KRt_5,
+		SUM(CASE WHEN bln IN (4, 5) THEN qty_krt ELSE 0 END) AS KRt,
+		(SUM(CASE WHEN bln IN (4, 5) THEN qty_krt ELSE 0 END))/(COUNT(DISTINCT CASE WHEN qty_krt > 0 THEN tgl ELSE NULL END)) AS DS
+FROM DtCMOBI.OmsUmum
+WHERE kelpitem IN ('TC001-TANGO CRISPY ROLL 2000', 'EM002-TANGO EMOJI 2000')
+		AND cust NOT LIKE '%PENJUALAN%'
+		AND cust NOT LIKE '%ECOM%'
+		AND cust NOT LIKE '%KANTOR%'
+GROUP BY 1, 2, 3
+ORDER BY RO DESC
+
+
+
+SELECT DISTINCT chKatLevel1, chKatLevel5
+FROM DtCMOBI.OmsUmum
+WHERE Grupgab  = 'GGAP-WAFER TANGO'
+
+
+--			 WHEN 
+
+
+
+---------------------------------- HITUNG SKU CARRIED TANGO 2000 PER WILAAH----------------------------------
+WITH S AS (
+SELECT wil AS market, cust, bln,
+		CASE WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN chKatLevel2
+		ELSE kelompok
+		END AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (chKatLevel1 = 'W2-Wafer 2000')
+			 OR
+			 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT wil AS market, cust, bln, 'TANGO 2000' AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (chKatLevel1 = 'W2-Wafer 2000')
+			 OR
+			 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+--
+--
+UNION
+--
+--
+SELECT wilgab AS market, cust, bln,
+		CASE WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN chKatLevel2
+		ELSE kelompok
+		END AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (chKatLevel1 = 'W2-Wafer 2000')
+			 OR
+			 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT wilgab AS market, cust, bln, 'TANGO 2000' AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (chKatLevel1 = 'W2-Wafer 2000')
+			 OR
+			 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+)
+SELECT market, bln,
+		(SUM(CASE WHEN SKU != 'TANGO 2000' THEN LT ELSE 0 END)/SUM(CASE WHEN SKU = 'TANGO 2000' THEN LT ELSE 0 END)) AS SKU_Carried,
+		SUM(CASE WHEN SKU = 'TANGO 2000' THEN Omset ELSE 0 END) AS Oms
+FROM (SELECT market AS market, bln, SKU, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS Omset
+	  FROM S
+	  GROUP BY 1, 2, 3
+	  UNION
+	  SELECT 'NAS' AS market, bln, SKU, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS Omset
+	  FROM S
+	  GROUP BY 1, 2, 3) AS t
+GROUP BY 1, 2
+
+
+
+
+---------------------------------- HITUNG SKU CARRIED BISCUIT PER WILAAH----------------------------------
+WITH S AS (
+SELECT wil AS market, cust, bln,
+		CASE WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN chKatLevel2
+			 WHEN grupgab IN ('GGFM-TWL', 'GGBI-IMPERIAL') THEN kelpitem
+			 WHEN chkatlevel1 = 'W1-Wafer Flat Exc Brocris' AND chkatlevel5 = 'W0004-WAFER 2000UP' AND kelompok LIKE '%7000%' AND kelpitem LIKE '%POUCH%' THEN CONCAT(kelompok, 'POUCH')
+			 ELSE kelompok
+			 END AS SKU,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 OR
+			 grupgab IN ('GGFM-TWL', 'GGBI-IMPERIAL', 'GGAT-FULLO', 'GGAP-WAFER TANGO')
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT wil AS market, cust, bln, 'BISCUIT' AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 OR
+			 grupgab IN ('GGFM-TWL', 'GGBI-IMPERIAL', 'GGAT-FULLO', 'GGAP-WAFER TANGO')
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+--
+--
+UNION
+--
+--
+SELECT wilgab AS market, cust, bln,
+		CASE WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN chKatLevel2
+			 WHEN grupgab IN ('GGFM-TWL', 'GGBI-IMPERIAL') THEN kelpitem
+			 WHEN chkatlevel1 = 'W1-Wafer Flat Exc Brocris' AND chkatlevel5 = 'W0004-WAFER 2000UP' AND kelompok LIKE '%7000%' AND kelpitem LIKE '%POUCH%' THEN CONCAT(kelompok, 'POUCH')
+			 ELSE kelompok
+			 END AS SKU,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 OR
+			 grupgab IN ('GGFM-TWL', 'GGBI-IMPERIAL', 'GGAT-FULLO', 'GGAP-WAFER TANGO')
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT wilgab AS market, cust, bln, 'BISCUIT' AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 OR
+			 grupgab IN ('GGFM-TWL', 'GGBI-IMPERIAL', 'GGAT-FULLO', 'GGAP-WAFER TANGO')
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%' 		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%' 	AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%' 		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %' 		AND UPPER(cust) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3, 4
+)
+SELECT market, bln,
+		(SUM(CASE WHEN SKU != 'BISCUIT' THEN LT ELSE 0 END)/SUM(CASE WHEN SKU = 'BISCUIT' THEN LT ELSE 0 END)) AS SKU_Carried,
+		SUM(CASE WHEN SKU = 'BISCUIT' THEN Omset ELSE 0 END) AS Oms
+FROM (SELECT market AS market, bln, SKU, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS Omset
+	  FROM S
+	  GROUP BY 1, 2, 3
+	  UNION
+	  SELECT 'NAS' AS market, bln, SKU, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS Omset
+	  FROM S
+	  GROUP BY 1, 2, 3) AS t
+GROUP BY 1, 2
+
+
+
+
+ 		
+SELECT 'UM' AS market,
+		thn,
+		bln,
+		CASE WHEN itemgb IN ('7373-TANGO WAFFLE CHOCO HAZELNUT 63G-PD 2026', '7283-WAFFLE TANGO CHOCO HAZELNUT 70 GR') THEN 'XXXXX-TANGO WAFFLE CHOCO HAZELNUT POUCH REG'
+			 WHEN itemgb = '7374-TANGO WAFFLE COOKIEZ & CREAM 63G-PD 2026' THEN 'XXXXX-TANGO WAFFLE COOKIEZ & CREAM POUCH REG'
+			 WHEN kelpitem IS NULL THEN itemgb
+			 ELSE kelpitem
+		END AS KP,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE Supplier = 'UPA'
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT 'P90' AS market,
+		thn,
+		bln,
+		CASE WHEN itemgb IN ('7373-TANGO WAFFLE CHOCO HAZELNUT 63G-PD 2026', '7283-WAFFLE TANGO CHOCO HAZELNUT 70 GR') THEN 'XXXXX-TANGO WAFFLE CHOCO HAZELNUT POUCH REG'
+			 WHEN itemgb = '7374-TANGO WAFFLE COOKIEZ & CREAM 63G-PD 2026' THEN 'XXXXX-TANGO WAFFLE COOKIEZ & CREAM POUCH REG'
+			 WHEN kelpitem IS NULL THEN itemgb
+			 ELSE kelpitem
+		END AS KP,
+		SUM(qty_krt) AS KRT
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE Supplier = 'UPA'
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+
+
+
+SELECT depo, kelompok, SUM(qty_krt)/2 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grup LIKE'%GN%' AND wil LIKE ANY ('%BANTEN%', '%DKI%', '%BODEBEK%') AND thn = 2026 AND bln IN (5, 6)-- AND itemgb LIKE '%HAZELNUT%'
+GROUP BY 1, 2
+UNION
+SELECT depo, kelompok, SUM(qty_krt)/2 AS KRT
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE grup LIKE'%GN%' AND wil LIKE ANY ('%BANTEN%', '%DKI%', '%BODEBEK%')  AND thn = 2026 AND bln IN (5, 6)-- AND itemgb LIKE '%HAZELNUT%'
+GROUP BY 1, 2
+
+
+
+WITH S AS (
+SELECT 'UM' AS market, grupgab, SUM(qty_krt)/6 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE Grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGBI-IMPERIAL', 'GGAT-FULLO')
+		AND thn = 2026 AND bln = 6
+GROUP BY 1, 2
+UNION
+SELECT 'P90' AS market, grupgab, SUM(qty_krt)/6 AS KRT
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE Grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGBI-IMPERIAL', 'GGAT-FULLO')
+		AND thn = 2026 AND bln = 6
+GROUP BY 1, 2
+)
+SELECT GRUPGAB, SUM(KRT) AS OMS
+FROM S
+GROUP BY 1
+
+
+
+-------------------OMS TANGO 2000 RP --------------
+SELECT WIL, bln,
+		CASE WHEN chkatlevel1 = 'W2-Wafer 2000' THEN 'WAFER'
+			 WHEN kelompok = 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000' THEN 'WA.HH'
+			 WHEN grup = 'GN-WAFFLE TANGO 2000' THEN 'WAFFLE'
+			 WHEN kelompok = 'K2-TANGO EMOJI 2000' THEN 'EMOJI 2000'
+			 WHEN kelompok = 'L1-TANGO CRISPY ROLL 2000' THEN 'CIROLL'
+			 WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN 'BROWNIES'
+		END AS KP,
+		SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE (chkatlevel1 = 'W2-Wafer 2000'
+		OR grup = 'GN-WAFFLE TANGO 2000'
+		OR kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000'))
+	  AND thn = 2026
+GROUP BY 1, 2, 3
+
+
+
+SELECT DISTINCT itemgb
+FROM DtCMOBI.OmsUmum
+WHERE chkatlevel1 = 'W3-Wafer 500'
+ORDER BY itemgb DESC
+
+
+
+WITH S AS (
+SELECT wilgab, CUST, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Rp, SUM(qty_kecil) AS PCS
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026 AND bln = 6
+--		AND wil LIKE ANY ('%SUM%', '%LAMPUNG%')
+--		AND chkatlevel1 = 'W3-Wafer 500' AND itemgb LIKE '%SLW%'
+--		AND grupgab = 'GGFM-TWL'
+		AND kelompok = 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'
+GROUP BY 1, 2)
+--HAVING KRT >= 100 AND KRT < 1000
+SELECT cust, SUM(KRT) AS Qty, SUM(Rp) AS Jt, SUM(Rp)*1000000/SUM(KRT) AS HARNETT, SUM(PCS)/SUM(KRT) AS Konversi
+FROM S
+WHERE KRT >= 10 AND KRT < 200
+GROUP BY 1	
+ORDER BY 4 ASC
+
+
+SELECT DISTINCT kelompok
+FROM DtCMOBI.OmsUmum
+where chKatLevel1 = 'W2-Wafer 2000'
+
+
+SELECT wil, depo,
+		SUM(CASE WHEN thn = 2026 AND bln = 4 THEN qty_krt ELSE 0 END) AS KRT_4,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END) AS KRT_5,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN qty_krt ELSE 0 END) AS KRT_6
+from DtCMOBI.OmsUmum
+where Divisi = '11-AB2' AND wil LIKE ANY ('%KAL%', '%NUS%') AND kelompok = 'V1-WAFER TANGO KEJU 2000'
+GROUP BY 1, 2
+
+
+
+
+
+
+SELECT wil, bln, 
+		CASE WHEN itemgb LIKE '%BROWNIES%' THEN 'BROWNIES'
+			 WHEN itemgb LIKE '%WA.HH%' THEN 'WA.HH'
+			 ELSE grupgab
+			 END AS KP,
+		SUM(qty_krt) AS KRT,
+		SUM(qty_kecil) AS PCS
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026 AND itemgb LIKE '%BTDT%' AND depo
+GROUP BY 1, 2, 3
+
+
+
+
+
+
+SELECT wil, depo, cust,
+		SUM(CASE WHEN thn = 2025 AND bln > 6 THEN qty_krt ELSE 0 END)/6 AS SM2_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS Q1_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) THEN qty_krt ELSE 0 END)/3 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 4 THEN qty_krt ELSE 0 END) AS Apr_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END) AS Mei_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN qty_krt ELSE 0 END) AS Jun_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_26
+FROM DtCMOBI.OmsUmum
+WHERE itemgb LIKE '%BROWNIES%' AND chKatLevel2 != 'OTHER' AND wil LIKE ANY ('%DKI%', '%BANTEN%')
+		AND UPPER(CUST) NOT LIKE '%PENJUALAN%'
+		AND UPPER(CUST) NOT LIKE '%LANGGANAN%'
+		AND UPPER(CUST) NOT LIKE '%KONTAN ECOM%'
+		AND UPPER(CUST) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(CUST) NOT LIKE '%SELISIH%'
+		AND UPPER(CUST) NOT LIKE '%CUSTOMER%'
+		AND UPPER(CUST) NOT LIKE '% CUST %'
+		AND UPPER(CUST) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3
+HAVING SM2_25 > 50 OR Q1_26 > 50
+
+
+
+
+SELECT 'UM' AS market,
+		CASE WHEN chKatLevel1 = 'W1-Wafer 2000UP' AND kelpitem LIKE '%BOX%' THEN '10000'
+			 WHEN chKatLevel1 = 'W1-Wafer 2000UP' AND kelpitem LIKE '%MEDIUM%' THEN '7000'
+			 WHEN chKatLevel1 = 'W1-Wafer 2000UP' AND kelpitem LIKE '%POUCH%' THEN 'POUCH'
+			 WHEN grupgab = 'GG'
+FROM DtCMOBI.OmsUmum
+WHERE chkatlevel1 = 'W1-Wafer 2000UP' AND kelpitem LIKE '%MEDIUM%' AND chKatLevel2 LIKE '%POUCH%'
+
+
+
+
+
+
+
+SELECT BPRDate, wil, Destination, Kelompok, SUM(Norm) AS NORM, SUM(Stock) AS STOCK, SUM(GIT) AS GIT
+FROM DtDWHBI.VW_OTRS_BPR
+WHERE BPRDate IN ('2026-04-02', '2026-05-02', '2026-06-02', '2026-07-01')
+		AND SKU_ID IN ('7404', '7405', '7410')
+GROUP BY 1, 2, 3, 4
+
+
+
+SELECT depo, bln, KelpItem, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE itemgb LIKE ANY ('7404%', '7405%', '7410%')
+GROUP BY 1, 2, 3
+
+
+
+SELECT DISTINCT grupgab
+FROM DtCMOBI.OmsUmum
+WHERE itemgb LIKE ANY ('%EMOJI%', '%BLI MADE%')
+
+
+
+
+SELECT 'UM' AS market, kelpitem,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 1 THEN qty_krt ELSE 0 END) AS Jan_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 2 THEN qty_krt ELSE 0 END) AS Feb_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 3 THEN qty_krt ELSE 0 END) AS Mar_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 4 THEN qty_krt ELSE 0 END) AS Apr_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END) AS Mei_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN qty_krt ELSE 0 END) AS Jun_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_25
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGBI-IMPERIAL', 'GGFZ-TANGO EMOJI FESTIVE', 'GGFY-BISKUIT BLI MADE')
+GROUP BY 1, 2
+UNION
+SELECT 'P90' AS market, kelpitem,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 1 THEN qty_krt ELSE 0 END) AS Jan_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 2 THEN qty_krt ELSE 0 END) AS Feb_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 3 THEN qty_krt ELSE 0 END) AS Mar_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 4 THEN qty_krt ELSE 0 END) AS Apr_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END) AS Mei_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN qty_krt ELSE 0 END) AS Jun_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_25
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE grupgab IN ('GGBI-IMPERIAL', 'GGFZ-TANGO EMOJI FESTIVE', 'GGFY-BISKUIT BLI MADE')
+GROUP BY 1, 2
+UNION
+SELECT 'UM' AS market, itemgb,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 1 THEN qty_krt ELSE 0 END) AS Jan_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 2 THEN qty_krt ELSE 0 END) AS Feb_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 3 THEN qty_krt ELSE 0 END) AS Mar_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 4 THEN qty_krt ELSE 0 END) AS Apr_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END) AS Mei_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN qty_krt ELSE 0 END) AS Jun_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_25
+FROM DtCMOBI.OmsUmum
+WHERE itemgb LIKE '%BROWNIES%'
+GROUP BY 1, 2
+UNION
+SELECT 'P90' AS market, itemgb,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 1 THEN qty_krt ELSE 0 END) AS Jan_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 2 THEN qty_krt ELSE 0 END) AS Feb_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 3 THEN qty_krt ELSE 0 END) AS Mar_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 4 THEN qty_krt ELSE 0 END) AS Apr_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END) AS Mei_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN qty_krt ELSE 0 END) AS Jun_25,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_25
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE itemgb LIKE '%BROWNIES%'
+GROUP BY 1, 2
+
+
+
+SELECT kelpitem, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W4-Wafer 1000' AND thn = 2026 AND bln = 6
+group by 1
+
+
+
+
+WITH S AS (
+SELECT wil, depo,
+		CASE WHEN cust IN ('2829-23411934-CV LARIS ADINATA SEJATI', '2801-23411939-CV Laris Adi Sejati') THEN 'GRUP LARIS'
+			 WHEN cust IN ('2803-23148220-CV MEKAR MULIA ABADI', '2803-23494291-INDOMEKAR') THEN 'GRUP INDOMEKAR'
+			 ELSE cust
+		END AS cust,
+		SUM(CASE WHEN thn = 2025 THEN rp ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN rp ELSE 0 END)/3 AS Q1_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) THEN rp ELSE 0 END)/3 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN rp ELSE 0 END) AS Jun_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN rp ELSE 0 END) AS Jul_26
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2' AND flagfestive = 'Non Festive'
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+		AND depo LIKE ANY ('%MAGELANG%', '%SOLO%', '%YOGYA%') AND wil LIKE '%JATENG%'
+GROUP BY 1, 2, 3
+)
+SELECT *
+FROM  (SELECT *, ROW_NUMBER() OVER (PARTITION BY depo ORDER BY Q2_26 DESC) AS rank_Q2 FROM S) AS r
+WHERE rank_Q2 <= 10
+
+
+
+SELECT grup, kelompok, DIVISI, SUM(rp)/3000000 AS JT
+FROM DtCMOBI.OmsUmum
+WHERE cust = '2204-23159889-CV.USAHA LANCAR JAYA' AND divisi = '11-AB2'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+		AND Grupgab = 'GGAW-WAFFLE TANGO'
+		AND thn = 2026 AND bln IN (4, 5, 6)
+GROUP BY 1, 2, 3
+
+
+SELECT DISTINCT kategori, grupgab, grup, kelompok, chKatLevel1, chKatLevel2, chKatLevel3, chKatLevel4, chKatLevel5, chKatLevel6, kelpitem, itemgb
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2'
+
+
+------------------ OMSET PER VARIAN TANGO 2000 ----------------------
+SELECT 'UM' AS market,
+		CASE WHEN kelompok LIKE '%COKLAT%' THEN 'CH'
+			 WHEN kelompok LIKE '%VANILA%' THEN 'VA'
+			 WHEN kelompok LIKE '%STRAW%' THEN 'SJ'
+			 WHEN kelompok LIKE '%KEJU%' THEN 'CHE'
+			 ELSE 'Other'
+			 END AS kelompok,
+		thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W2-Wafer 2000' AND thn IN (2025,2026)
+GROUP BY 1, 2, 3, 4
+UNION
+SELECT 'P90' AS market,
+		CASE WHEN kelompok LIKE '%COKLAT%' THEN 'CH'
+			 WHEN kelompok LIKE '%VANILA%' THEN 'VA'
+			 WHEN kelompok LIKE '%STRAW%' THEN 'SJ'
+			 WHEN kelompok LIKE '%KEJU%' THEN 'CHE'
+			 ELSE 'Other'
+			 END AS kelompok,
+		thn, bln, SUM(qty_krt) AS KRT
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE chKatLevel1 = 'W2-Wafer 2000' AND thn IN (2025,2026)
+GROUP BY 1, 2, 3, 4
+
+
+
+SELECT CASE WHEN chkatlevel1 = 'W2-Wafer 2000' THEN 'WAFER' ELSE 'WAFFLE' END AS KP,
+		SUM(CASE WHEN thn = 2024 AND bln = 7 then qty_krt ELSE 0 END) AS KRT_Jul24,
+		SUM(CASE WHEN thn = 2026 AND bln = 9 then qty_krt ELSE 0 END) AS KRT_Sep26
+FROM DTCMOBI.OmsUmum
+WHERE (chkatlevel1 = 'W2-Wafer 2000' OR grup = 'GN-WAFFLE TANGO 2000') --AND kelompok != 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'
+GROUP BY 1
+
+
+
+
+SELECT 'UM' AS market, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE grupgab LIKE '%EMOJI%' AND itemgb NOT IN ('7273-TANGO EMOJI CHOCO POUCH 140 GR 2026', '7358-TANGO EMOJI CHOCO POUCH 140 GR 2026 (P)')
+GROUP BY 1, 2, 3
+UNION
+SELECT 'P90' AS market, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DTDWHBI.VW_BICMOP90Daily
+WHERE grupgab LIKE '%EMOJI%' AND itemgb NOT IN ('7273-TANGO EMOJI CHOCO POUCH 140 GR 2026', '7358-TANGO EMOJI CHOCO POUCH 140 GR 2026 (P)')
+GROUP BY 1, 2, 3
+
+
+
+SELECT cust,
+		CASE WHEN chkatlevel1 = 'W2-Wafer 2000' THEN 'WAFER'
+			 WHEN grup = 'GN-WAFFLE TANGO 2000' AND kelompok LIKE 'N8%' THEN 'WA.HH'
+			 WHEN grup = 'GN-WAFFLE TANGO 2000' THEN 'WAFFLE'
+			 WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN 'BROWNIES'
+			 WHEN kelompok = 'K2-TANGO EMOJI 2000' THEN 'EMOJI'
+			 WHEN kelompok = 'L1-TANGO CRISPY ROLL 2000' THEN 'CROLL'
+			 ELSE Divisi
+			 END AS KP,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN qty_krt ELSE 0 END)AS Krt_Mei,
+		SUM(CASE WHEN thn = 2026 AND bln = 5 THEN rp ELSE 0 END)/1000000 AS Rp_Mei,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN qty_krt ELSE 0 END)AS Krt_Jun,
+		SUM(CASE WHEN thn = 2026 AND bln = 6 THEN rp ELSE 0 END)/1000000 AS Rp_Jun,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END)AS Krt_Jul,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN rp ELSE 0 END)/1000000 AS Rp_Jul
+FROM DtCMOBI.OmsUmum
+WHERE cust LIKE '%23235547%' AND divisi = '11-AB2'
+GROUP BY 1, 2
+
+
+
+
+-------------------------------- INDUSTRI COKLAT 3YRP --------------------------------
+SELECT *
+FROM DtCMOBI.VW_tNielsen
+WHERE INDUSTRI = 'CHOCOLATE'
+		AND Tahun IN (2023, 2024)
+		AND item IS NOT NULL
+		AND Market IN ('Indonesia', 'Indonesia GT', 'Indonesia MT')
+		AND LEVEL_DATA = 'ITEM'
+
+
+
+SELECT wil, CASE WHEN kategori IN ('1-WAFER FLAT', '2-WAFER STICK', '3-WAFER COATED', '6-COOKIES REAL') THEN 'BISCUIT'
+				 WHEN kategori = '14-CHOCOLATE' THEN 'CHOCOLATE'
+				 WHEN kategori IN ('9-SOFT CANDIES', '10-DRAGEES', '11-HARD CANDIES', '12-LOLYPOP', '54-GUMMY') THEN 'CANDY'
+				 WHEN kategori IN ('4-CRACKERS SWEET', '5-CRACKERS SNACK', '8-SNACK') THEN 'SNACK'
+				 WHEN kategori IN ('16-TOOTHBRUSH', '17-TOOTHPASTE') THEN 'ORAL CARE'
+				 WHEN kategori IN ('19-RAZOR', '21-SANITIZER', '22-HAND SOAP', '23-TOILET SOAP', '24-DISPOSABLE MASK', '25-WET WIPES', '30-FLOOR CLEANER') THEN 'PERSONAL CARE'
+				 ELSE KATEGORI
+				 END AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln IN (1, 2, 3) then rp ELSE 0 END)/3000000 AS Q1_25,
+		SUM(CASE WHEN thn = 2025 AND bln IN (4, 5, 6) then rp ELSE 0 END)/3000000 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) then rp ELSE 0 END)/3000000 AS Q1_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) then rp ELSE 0 END)/3000000 AS Q3_26
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2' AND area = 'DALAM PULAU'
+		AND FlagFestive = 'Non Festive'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2
+UNION
+SELECT area, CASE WHEN kategori IN ('1-WAFER FLAT', '2-WAFER STICK', '3-WAFER COATED', '6-COOKIES REAL') THEN 'BISCUIT'
+				 WHEN kategori = '14-CHOCOLATE' THEN 'CHOCOLATE'
+				 WHEN kategori IN ('9-SOFT CANDIES', '10-DRAGEES', '11-HARD CANDIES', '12-LOLYPOP', '54-GUMMY') THEN 'CANDY'
+				 WHEN kategori IN ('4-CRACKERS SWEET', '5-CRACKERS SNACK', '8-SNACK') THEN 'SNACK'
+				 WHEN kategori IN ('16-TOOTHBRUSH', '17-TOOTHPASTE') THEN 'ORAL CARE'
+				 WHEN kategori IN ('19-RAZOR', '21-SANITIZER', '22-HAND SOAP', '23-TOILET SOAP', '24-DISPOSABLE MASK', '25-WET WIPES', '30-FLOOR CLEANER') THEN 'PERSONAL CARE'
+				 ELSE KATEGORI
+				 END AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln IN (1, 2, 3) then rp ELSE 0 END)/3000000 AS Q1_25,
+		SUM(CASE WHEN thn = 2025 AND bln IN (4, 5, 6) then rp ELSE 0 END)/3000000 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) then rp ELSE 0 END)/3000000 AS Q1_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) then rp ELSE 0 END)/3000000 AS Q3_26
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2' AND area = 'DALAM PULAU'
+		AND FlagFestive = 'Non Festive'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2
+UNION
+SELECT 'NAS' AS ket, CASE WHEN kategori IN ('1-WAFER FLAT', '2-WAFER STICK', '3-WAFER COATED', '6-COOKIES REAL') THEN 'BISCUIT'
+				 WHEN kategori = '14-CHOCOLATE' THEN 'CHOCOLATE'
+				 WHEN kategori IN ('9-SOFT CANDIES', '10-DRAGEES', '11-HARD CANDIES', '12-LOLYPOP', '54-GUMMY') THEN 'CANDY'
+				 WHEN kategori IN ('4-CRACKERS SWEET', '5-CRACKERS SNACK', '8-SNACK') THEN 'SNACK'
+				 WHEN kategori IN ('16-TOOTHBRUSH', '17-TOOTHPASTE') THEN 'ORAL CARE'
+				 WHEN kategori IN ('19-RAZOR', '21-SANITIZER', '22-HAND SOAP', '23-TOILET SOAP', '24-DISPOSABLE MASK', '25-WET WIPES', '30-FLOOR CLEANER') THEN 'PERSONAL CARE'
+				 ELSE KATEGORI
+				 END AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln IN (1, 2, 3) then rp ELSE 0 END)/3000000 AS Q1_25,
+		SUM(CASE WHEN thn = 2025 AND bln IN (4, 5, 6) then rp ELSE 0 END)/3000000 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) then rp ELSE 0 END)/3000000 AS Q1_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) then rp ELSE 0 END)/3000000 AS Q3_26
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2'
+		AND FlagFestive = 'Non Festive'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2
+
+
+
+
+
+SELECT *
+FROM DtCMOBI.EAOMonthly
+--WHERE chteam = 'Total' AND chkdproduk LIKE '%GGAW%' AND chtipelokasi = 'Nasional' AND chtipemarket = 2
+
+SELECT *
+FROM DtDWHBI.RPT_EAO_Daily
+WHERE chtipemarket = 2 AND inbulan = 7 AND chketproduk2 LIKE '%WAFER FLAT%' AND chteam = 'Total' AND chtipelokasi = 'Nasional'
+
+
+
+SELECT *
+FROM DtCMOBI.Trade_MDS_LL_MDS_JUL26
+
+
+
+WITH S AS (SELECT cust, thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OMSUMUM
+WHERE Grupgab = 'GGAW-WAFFLE TANGO'
+	AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+	AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+	AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2, 3)
+SELECT thn, bln, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS OMS
+FROM S
+GROUP BY 1, 2
+
+
+
+
+SELECT 'UM' AS market, itemgb, KelpItem, divisi, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum
+WHERE (Divisi IN ('11-AB2', '31-AB3') OR Supplier = 'CS2') AND thn = 2026
+GROUP BY 1, 2, 3, 4, 5, 6
+UNION
+SELECT 'P90' AS market, itemgb, KelpItem, divisi, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE (Divisi IN ('11-AB2', '31-AB3') OR Supplier = 'CS2') AND thn = 2026
+GROUP BY 1, 2, 3, 4, 5, 6
+
+
+
+
+
+WITH S AS (
+SELECT 'UM' AS market, grupgab,
+		SUM(CASE WHEN bln = 5 THEN qty_krt ELSE 0 END) AS KRT_5,
+		SUM(CASE WHEN bln = 6 THEN qty_krt ELSE 0 END) AS KRT_6
+FROM DtCMOBI.omsumum
+WHERE (chkatlevel1 = 'W2-Wafer 2000' OR grup = 'GN-WAFFLE TANGO 2000')
+		AND thn = 2026
+		AND itemgb NOT LIKE '%WA.HH%'
+GROUP BY 1, 2
+UNION 
+SELECT 'P90' AS market, grupgab,
+		SUM(CASE WHEN bln = 5 THEN qty_krt ELSE 0 END) AS KRT_5,
+		SUM(CASE WHEN bln = 6 THEN qty_krt ELSE 0 END) AS KRT_6
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE (chkatlevel1 = 'W2-Wafer 2000' OR grup = 'GN-WAFFLE TANGO 2000')
+		AND thn = 2026
+		AND itemgb NOT LIKE '%WA.HH%'
+GROUP BY 1, 2
+)
+SELECT grupgab, SUM(KRT_5) AS Mei, SUM(krt_6) AS Jun
+FROM S
+GROUP BY 1
+
+
+
+
+
+---------------------------------------------- ITEM CARRIED BIMA ULA (AB2 FOOD + SUTENG) [LT PER SKU] ----------------------------------------------
+WITH S AS (
+SELECT cust, program, kelpitem AS Ket, thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE ((Divisi = '11-AB2'
+		AND grupgab NOT IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGBZ-FULLOFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFB-MBRFST', 'GGFQ-IMPERIALFST', 'GGFP-TWLFST',
+							'GGFU-BLASTOZFST', 'GGFW-OOPS FST',
+							'GGCA-PGF', 'GGCD-SGF', 'GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC')
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH')
+		OR grupgab IN ('GGEH-SUSU TANGO PET', 'GGEG-TETRA'))
+		AND thn > 2024
+GROUP BY 1, 2, 3, 4, 5
+--
+UNION
+--
+SELECT cust, program, 'TOTAL' AS Ket, thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE ((Divisi = '11-AB2'
+		AND grupgab NOT IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGBZ-FULLOFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFB-MBRFST', 'GGFQ-IMPERIALFST', 'GGFP-TWLFST',
+							'GGFU-BLASTOZFST', 'GGFW-OOPS FST',
+							'GGCA-PGF', 'GGCD-SGF', 'GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC')
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH')
+		OR grupgab IN ('GGEH-SUSU TANGO PET', 'GGEG-TETRA'))
+		AND thn > 2024
+GROUP BY 1, 2, 3, 4, 5
+)
+SELECT program, Ket, thn, bln,
+		COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS OMS
+FROM S
+GROUP BY 1, 2, 3, 4
+
+
+	
+
+---------------------------------------------- ITEM CARRIED BIMA ULA (AB2 FOOD + SUTENG) [SKU PER WILAYAH] ----------------------------------------------
+WITH S AS (
+------------------ BIMA PER ITEM ------------------
+SELECT cust, wil, program, kelpitem AS Ket, thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE ((Divisi = '11-AB2'
+		AND grupgab NOT IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGBZ-FULLOFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFB-MBRFST', 'GGFQ-IMPERIALFST', 'GGFP-TWLFST',
+							'GGFU-BLASTOZFST', 'GGFW-OOPS FST',
+							'GGCA-PGF', 'GGCD-SGF', 'GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC')
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH')
+		OR grupgab IN ('GGEH-SUSU TANGO PET', 'GGEG-TETRA'))
+		AND thn > 2024
+		AND program = 'BIMA'
+GROUP BY 1, 2, 3, 4, 5, 6
+--
+UNION
+------------------ BIMA TOTAL ------------------
+SELECT cust, wil, program, 'TOTAL' AS Ket, thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE ((Divisi = '11-AB2'
+		AND grupgab NOT IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGBZ-FULLOFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFB-MBRFST', 'GGFQ-IMPERIALFST', 'GGFP-TWLFST',
+							'GGFU-BLASTOZFST', 'GGFW-OOPS FST',
+							'GGCA-PGF', 'GGCD-SGF', 'GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC')
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH')
+		OR grupgab IN ('GGEH-SUSU TANGO PET', 'GGEG-TETRA'))
+		AND thn > 2024
+		AND program = 'BIMA'
+GROUP BY 1, 2, 3, 4, 5, 6
+--
+--
+UNION
+--
+------------------ ULA PER ITEM ------------------
+SELECT cust, wil, program, kelpitem AS Ket, thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE Divisi = '11-AB2'
+		AND grupgab NOT IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGBZ-FULLOFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFB-MBRFST', 'GGFQ-IMPERIALFST', 'GGFP-TWLFST',
+							'GGFU-BLASTOZFST', 'GGFW-OOPS FST',
+							'GGCA-PGF', 'GGCD-SGF', 'GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC')
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+		AND thn > 2024
+		AND program = 'ULA'
+GROUP BY 1, 2, 3, 4, 5, 6
+--
+UNION
+------------------ ULA TOTAL ------------------
+SELECT cust, wil, program, 'TOTAL' AS Ket, thn, bln, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE Divisi = '11-AB2'
+		AND grupgab NOT IN ('GGAV-WFTFST', 'GGBX-WFLFST', 'GGBZ-FULLOFST', 'GGFC-MSW', 'GGFJ-MERFST', 'GGFB-MBRFST', 'GGFQ-IMPERIALFST', 'GGFP-TWLFST',
+							'GGFU-BLASTOZFST', 'GGFW-OOPS FST',
+							'GGCA-PGF', 'GGCD-SGF', 'GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC')
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+		AND thn > 2024
+		AND program = 'ULA'
+GROUP BY 1, 2, 3, 4, 5, 6
+)
+SELECT wil, thn, bln, program,
+		SUM(CASE WHEN Ket = 'TOTAL' THEN LT ELSE 0 END) AS LT_Total,
+		SUM(CASE WHEN Ket != 'TOTAL' THEN LT ELSE 0 END) AS LT_Item
+FROM (
+	SELECT wil, Ket, thn, bln, program,
+			COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS OMS
+	FROM S
+	GROUP BY 1, 2, 3, 4, 5
+) AS t
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+---------------------------------------------- ITEM CARRIED BIMA AB3 [SKU PER WILAYAH] ----------------------------------------------
+WITH S AS (
+SELECT cust, wil, program, kelpitem AS Ket, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE Divisi = '31-AB3' AND thn > 2024
+GROUP BY 1, 2, 3, 4, 5, 6
+--
+UNION
+--
+SELECT cust, wil, program, divisi AS Ket, thn, bln, SUM(qty_krt) AS KRT, SUM(rp)/1000000 AS Jt
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoBIMAULA AS B
+		ON LEFT(A.cust, 13) = B.KODE
+WHERE Divisi = '31-AB3' AND thn > 2024
+GROUP BY 1, 2, 3, 4, 5, 6
+)
+SELECT wil, thn, bln, program,
+		SUM(CASE WHEN Ket = '31-AB3' THEN LT ELSE 0 END) AS LT_Total,
+		SUM(CASE WHEN Ket != '31-AB3' THEN LT ELSE 0 END) AS LT_Item,
+		SUM(Rp) AS Oms
+FROM (
+	SELECT wil, Ket, thn, bln, program,
+			COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS OMS, SUM(Jt) AS Rp
+	FROM S
+	GROUP BY 1, 2, 3, 4, 5
+) AS t
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+
+
+
+
+
+SELECT wil, depo, cust,
+		ROUND(SUM(qty_krt), 1) AS KRT,
+		ROUND(SUM(rp)/1000000,1) AS Jt,
+		ROUND(SUM(rp)/SUM(qty_krt),0) AS HARNETT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W3-Wafer 500' AND itemgb LIKE '%SLW%' AND THN = 2026 AND bln = 7 AND wil LIKE ANY ('%SUM%', '%LAMPUNG%', '%KAL%', '%NUSRA%')
+GROUP BY 1, 2, 3
+HAVING KRT >= 10 AND KRT < 30
+ORDER BY 1, 2, 3
+
+
+
+
+
+
+
+SELECT wil, depo, cust,
+		ROUND(SUM(qty_krt), 1) AS KRT,
+		ROUND(SUM(rp)/1000000,1) AS Jt,
+		ROUND(SUM(rp)/SUM(qty_krt),0) AS HARNETT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W4-Wafer 1000' AND THN = 2026 AND bln = 7 AND wil LIKE ANY ('%JATIM%', '%BALI%')
+GROUP BY 1, 2, 3
+HAVING KRT >= 10 --AND KRT < 30
+ORDER BY 6, 1, 2, 3
+
+
+
+
+
+
+
+
+SELECT 'UM' AS market, BLN, sum(QTY_KRT) as krt
+from DtCMOBI.omsumum
+where thn = 2026 and grupgab = 'GGBI-IMPERIAL'
+GROUP BY 1, 2
+UNION
+SELECT 'P90' AS market, BLN, sum(QTY_KRT) as krt
+FROM DtDWHBI.VW_BICMOP90Daily
+where thn = 2026 and grupgab = 'GGBI-IMPERIAL'
+GROUP BY 1, 2
+
+
+
+
+
+
+
+
+
+
+SELECT CASE WHEN kelompok = 'L1-TANGO CRISPY ROLL 2000' THEN 'CROLL 2000'
+			WHEN kelompok = 'K2-TANGO EMOJI 2000' THEN 'EMOJI 2000'
+			WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN 'BROWNIES 2000'		 
+			WHEN kelompok = 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000' THEN 'WA.HH 2000'
+			WHEN grup = 'GN-WAFFLE TANGO 2000' THEN 'WAFFLE 2000'
+			WHEN chKatLevel1 = 'W2-Wafer 2000' THEN 'WAFER 2000'
+			END AS KP,
+		thn,
+		qtr AS PERIODE,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT chkditemgb, chketsubkp, chketkelpitem FROM DtDWHBI.VW_BICMOProduct) AS B
+		ON LEFT(A.itemgb,4) = B.chkditemgb
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGAR-KLOP SALUTO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE')
+		AND FlagFestive = 'Non Festive'
+GROUP BY 1, 2, 3
+--
+UNION
+--
+SELECT CASE WHEN kelompok = 'L1-TANGO CRISPY ROLL 2000' THEN 'CROLL 2000'
+			WHEN kelompok = 'K2-TANGO EMOJI 2000' THEN 'EMOJI 2000'
+			WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN 'BROWNIES 2000'		 
+			WHEN kelompok = 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000' THEN 'WA.HH 2000'
+			WHEN grup = 'GN-WAFFLE TANGO 2000' THEN 'WAFFLE 2000'
+			WHEN chKatLevel1 = 'W2-Wafer 2000' THEN 'WAFER 2000'
+			END AS KP,
+		thn,
+		ketbln AS PERIODE,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT chkditemgb, chketsubkp, chketkelpitem FROM DtDWHBI.VW_BICMOProduct) AS B
+		ON LEFT(A.itemgb,4) = B.chkditemgb
+INNER JOIN DtCMOBI.Wafer_MapKetBln AS C
+		ON A.bln = C.bln
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGAR-KLOP SALUTO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE')
+		AND FlagFestive = 'Non Festive'
+GROUP BY 1, 2, 3
+--
+--
+UNION
+--
+--
+SELECT CASE WHEN grup = 'RG-TANGO BROWNIES CRISPY' THEN 'BROWNIES'
+			ELSE grupgab
+			END AS KP,
+		thn,
+		qtr AS PERIODE,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_MapKetBln AS C
+		ON A.bln = C.bln
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGAR-KLOP SALUTO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE')
+		AND FlagFestive = 'Non Festive'
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2, 3
+--
+UNION
+--
+SELECT CASE WHEN grup = 'RG-TANGO BROWNIES CRISPY' THEN 'BROWNIES'
+			ELSE grupgab
+			END AS KP,
+		thn,
+		ketbln AS PERIODE,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_MapKetBln AS C
+		ON A.bln = C.bln
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGAR-KLOP SALUTO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE')
+		AND FlagFestive = 'Non Festive'
+		---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2, 3
+
+
+
+
+
+SELECT 'UM' AS market,
+		CASE WHEN grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE', 'GGFY-BISKUIT BLI MADE') THEN 'BISCUIT'
+			 WHEN grupgab in ('GGBD-CB', 'GGAK-BLASTOZ') THEN 'CHOCOLATE'
+			 WHEN grupgab IN ('GGBB-BLASTER', 'GGBC-POP', 'GGFX-FRUZZG', 'GGBO-MINTZ', 'GGBR-FRUZZC') THEN 'CANDY'
+			 WHEN grupgab IN ('GGCA-PGF', 'GGCD-SGF') THEN 'ORAL CARE'
+			 WHEN grupgab IN ('GGFD-TOTAL OOPS','GGFA-KRIKKRAK', 'GGBH-CHIZBALLS', 'GGBA-MACITO') THEN 'SNACK'
+			 WHEN grupgab = 'GGFG-ROPPANG' THEN 'BREAD'
+			 WHEN grupgab IN ('GGIB-CFF BAKSO', 'GGIA-CFF SOSIS') THEN 'FROZEN FOOD'
+			 ELSE grupgab
+			 END AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln > 6 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_25,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_26
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2' AND FlagFestive = 'Non Festive'
+---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2
+----
+UNION
+----
+SELECT 'UM' AS market, 'BISCUIT TOTAL' AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln > 6 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_25,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_26
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE', 'GGFY-BISKUIT BLI MADE',
+				  'GGAV-WFTFST', 'GGBX-WFLFST', 'GGFP-TWLFST', 'GGFQ-IMPERIALFST', 'GGBZ-FULLOFST', 'GGFB-MBRFST', 'GGFC-MSW', 'GGFJ-MERFST')
+GROUP BY 1, 2
+
+
+
+
+SELECT 'P90' AS market,
+		CASE WHEN grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE', 'GGFY-BISKUIT BLI MADE') THEN 'BISCUIT'
+			 WHEN grupgab in ('GGBD-CB', 'GGAK-BLASTOZ') THEN 'CHOCOLATE'
+			 WHEN grupgab IN ('GGBB-BLASTER', 'GGBC-POP', 'GGFX-FRUZZG', 'GGBO-MINTZ', 'GGBR-FRUZZC') THEN 'CANDY'
+			 WHEN grupgab IN ('GGCA-PGF', 'GGCD-SGF') THEN 'ORAL CARE'
+			 WHEN grupgab IN ('GGFD-TOTAL OOPS','GGFA-KRIKKRAK', 'GGBH-CHIZBALLS', 'GGBA-MACITO') THEN 'SNACK'
+			 WHEN grupgab = 'GGFG-ROPPANG' THEN 'BREAD'
+			 WHEN grupgab IN ('GGIB-CFF BAKSO', 'GGIA-CFF SOSIS') THEN 'FROZEN FOOD'
+			 ELSE grupgab
+			 END AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln > 6 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_25,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_26
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE divisi = '11-AB2' AND FlagFestive = 'Non Festive'
+---------- ITEM BISCUIT FESTIVE POUCH : 
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000')
+		AND kelompok != 'K1-TANGO EMOJI POUCH'
+GROUP BY 1, 2
+----
+UNION
+----
+SELECT 'P90' AS market, 'BISCUIT TOTAL' AS KP,
+		SUM(CASE WHEN thn = 2025 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln > 6 THEN rp ELSE 0 END)/6000000 AS SM1_25,
+		SUM(CASE WHEN thn = 2025 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_25,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN rp ELSE 0 END)/6000000 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 9 THEN rp ELSE 0 END)/8000000 AS YTD_26
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO', 'GGFM-TWL', 'GGAT-FULLO', 'GGBI-IMPERIAL', 'GGAX-TCRPROLL', 'GGFZ-TANGO EMOJI FESTIVE', 'GGFY-BISKUIT BLI MADE',
+				  'GGAV-WFTFST', 'GGBX-WFLFST', 'GGFP-TWLFST', 'GGFQ-IMPERIALFST', 'GGBZ-FULLOFST', 'GGFB-MBRFST', 'GGFC-MSW', 'GGFJ-MERFST')
+GROUP BY 1, 2
+
+
+
+
+
+
+
+
+
+
+WITH S AS (
+SELECT 'UM' AS market, thn, bln, SUM(rp)/1000000 AS Rp
+FROM DtCMOBI.OmsUmum
+WHERE (chKatLevel1 = 'W2-Wafer 2000'
+	 OR
+	 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+	 OR
+	 grup = 'GN-WAFFLE TANGO 2000'
+	 )
+GROUP BY 1, 2, 3
+--
+UNION
+--
+SELECT 'P90' AS market, thn, bln, SUM(rp)/1000000 AS rp
+FROM DtDWHBI.VW_BICMOP90Daily
+WHERE (chKatLevel1 = 'W2-Wafer 2000'
+	 OR
+	 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+	 OR
+	 grup = 'GN-WAFFLE TANGO 2000'
+	 )
+GROUP BY 1, 2, 3)
+SELECT thn, bln, SUM(rp) AS Jt
+FROM S
+GROUP BY 1, 2
+
+
+
+
+
+
+------------------------------------------------ SKU TRANSAKSI TOKO WOA ------------------------------------------------
+WITH S AS (
+SELECT 'UM' AS market, Toko,
+      CASE WHEN grupgab IN ('GGCA-PGF', 'GGCD-SGF') THEN 'ORAL CARE'
+      	   WHEN grupgab IN ('GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC') THEN 'HOME AND PERSONAL CARE'
+      	   ELSE 'FOOD'
+      	   END AS Kategori,
+      kelpitem,
+      thn, bln, SUM(rp)/1000000 AS JtRp
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN DtCMOBI.Wafer_TokoWOAUmum AS B
+		ON B.Kode = LEFT(A.cust, 13)
+WHERE divisi = '11-AB2'
+GROUP BY 1, 2, 3, 4, 5, 6
+---------------------------------------------
+UNION
+---------------------------------------------
+SELECT 'P90' AS market, A.grup AS Toko,
+      CASE WHEN grupgab IN ('GGCA-PGF', 'GGCD-SGF') THEN 'ORAL CARE'
+      	   WHEN grupgab IN ('GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC') THEN 'HOME AND PERSONAL CARE'
+      	   ELSE 'FOOD'
+      	   END AS Kategori,
+      kelpitem,
+      thn, bln, SUM(rp)/1000000 AS JtRp
+FROM DtDWHBI.VW_BICMOP90Daily AS B
+INNER JOIN DtCMOBI.Wafer_TokoWOAP90 AS A
+		ON LEFT(A.kode, 4) = LEFT(B.cust, 4)
+			AND RIGHT(A.kode, 5) = SUBSTRING(B.cust, 9, 5)
+WHERE divisi = '11-AB2'
+GROUP BY 1, 2, 3, 4, 5, 6
+)
+SELECT market, TOKO, Kategori, thn, bln, COUNT(DISTINCT CASE WHEN JtRp > 0 THEN kelpitem ELSE NULL END) AS Item_Trx
+FROM S
+GROUP BY 1, 2, 3, 4, 5
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------ SKU TRANSAKSI TOKO WOW UMUM------------------------------------------------
+WITH S AS (
+SELECT cust AS Toko, divisi,
+--      CASE WHEN grupgab IN ('GGCA-PGF', 'GGCD-SGF') THEN 'ORAL CARE'
+--      	   WHEN grupgab IN ('GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC') THEN 'HOME AND PERSONAL CARE'
+--      	   ELSE 'FOOD'
+--      	   END AS Kategori,
+      kelpitem,
+      thn, bln,
+      SUM(rp)/1000000 AS JtRp
+FROM DtCMOBI.OmsUmum
+WHERE divisi = '11-AB2' AND FlagFestive = 'Non Festive'
+		AND cust IN ('1616-13918225-GLOBAL JAYA ONE', '2613-22045711-SAKURA', '3616-31013648-CV. SUMBER SARI SEJAHTERA',
+					  '8380-830K0086-CV. BERKAT USAHA GEMILANG', '9431-43098875-APOLLO', '9610-21426088-CV. BERKAH JAYA SENTOSA')
+GROUP BY 1, 2, 3, 4, 5
+--
+UNION
+SELECT gruptoko, divisi,
+--      CASE WHEN grupgab IN ('GGCA-PGF', 'GGCD-SGF') THEN 'ORAL CARE'
+--      	   WHEN grupgab IN ('GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC') THEN 'HOME AND PERSONAL CARE'
+--      	   ELSE 'FOOD'
+--      	   END AS Kategori,
+      kelpitem,
+      thn, bln,
+      SUM(rp)/1000000 AS JtRp
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT toko, grup gruptoko FROM DtCMOBI.Wafer_Trisula WHERE grup LIKE ANY ('%PERINTIS%', '%PRIMA JAYA%', '%TUBERKITA%', '%SUMBER JAYA%')) AS B
+		ON LEFT(A.cust, 13) = LEFT(B.toko, 13)
+WHERE divisi = '11-AB2' AND FlagFestive = 'Non Festive'
+GROUP BY 1, 2, 3, 4, 5
+)
+SELECT Toko, divisi, thn, bln, COUNT(DISTINCT CASE WHEN JtRp > 0 THEN kelpitem ELSE NULL END) AS SKU
+FROM S
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+
+
+------------------------------------------------ SKU TRANSAKSI TOKO WOW P90------------------------------------------------
+WITH S AS (
+SELECT grupKA, divisi, kelpitem, thn, bln, SUM(rp)/1000000 AS JtRp
+FROM DtDWHBI.VW_BICMOP90Daily AS A
+INNER JOIN (SELECT DISTINCT cust AS toko, KA AS grupKA FROM DtDWHBI.VW_BIP90Cust) AS B
+		ON A.cust = B.toko
+WHERE divisi = '11-AB2' AND FlagFestive = 'Non Festive'
+		AND grupKA IN ('SY-SURYA DP', 'AG-ADA', 'RT-RITA', 'CG-CHANDRA', 'CH-CHAMART')
+GROUP BY 1, 2, 3, 4, 5
+--
+UNION
+SELECT grupKA, 'OCPC' AS divisi, kelpitem, thn, bln, SUM(rp)/1000000 AS JtRp
+FROM DtDWHBI.VW_BICMOP90Daily AS A
+INNER JOIN (SELECT DISTINCT cust AS toko, KA AS grupKA FROM DtDWHBI.VW_BIP90Cust) AS B
+		ON A.cust = B.toko
+WHERE grupKA = 'HH-HARI-HARI'
+		AND grupgab IN ('GGCA-PGF', 'GGCD-SGF', 'GGCK-PRMSANITIZER', 'GGCO-PRMHS', 'GGCP-PRMMASK', 'GGCQ-PRMWP', 'GGCR-PRMBS', 'GGCS-PRMBW', 'GGCT-TGHFC')
+GROUP BY 1, 2, 3, 4, 5
+)
+SELECT grupKA, divisi, thn, bln, COUNT(DISTINCT CASE WHEN JtRp > 0 THEN kelpitem ELSE NULL END) AS SKU
+FROM S
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+

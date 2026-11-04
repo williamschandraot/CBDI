@@ -1,7 +1,4 @@
 -- REQ PAK IRWAN
-SELECT CUST,
-
-
 --
 SELECT CUST,
 	thn,

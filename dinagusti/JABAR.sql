@@ -1,0 +1,800 @@
+
+
+
+---------------------------------------------------------- STRATA ----------------------------------------------------------
+WITH S AS (
+-------------------------------------------------------------------------------------------------------------------- Q1 26
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WFT EXCLUDE KODE KHUSUS' AS ket,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND grup != 'RG-TANGO BROWNIES CRISPY'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND itemgb NOT LIKE '%(D)%'
+		AND itemgb NOT LIKE '%(J)%'
+		AND itemgb NOT LIKE '%(F)%'
+		AND itemgb NOT LIKE '%(H)%'
+		AND itemgb NOT LIKE '%(G)%'
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WF 2000 EXCLUDE KODE KHUSUS' AS ket,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W2-Wafer 2000'
+		AND itemgb NOT LIKE '%(D)%'
+		AND itemgb NOT LIKE '%(J)%'
+		AND itemgb NOT LIKE '%(F)%'
+		AND itemgb NOT LIKE '%(H)%'
+		AND itemgb NOT LIKE '%(G)%'
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WFT' AS ket,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND grup != 'RG-TANGO BROWNIES CRISPY'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WF 2000' AS ket,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W2-Wafer 2000'
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WAFFLE 2000' AS ket,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grup = 'GN-WAFFLE TANGO 2000' AND kelompok != 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+-------------------------------------------------------------------------------------------------------------------- BULAN
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WFT EXCLUDE KODE KHUSUS' AS ket,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND grup != 'RG-TANGO BROWNIES CRISPY'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND itemgb NOT LIKE '%(D)%'
+		AND itemgb NOT LIKE '%(J)%'
+		AND itemgb NOT LIKE '%(F)%'
+		AND itemgb NOT LIKE '%(H)%'
+		AND itemgb NOT LIKE '%(G)%'
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WF 2000 EXCLUDE KODE KHUSUS' AS ket,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W2-Wafer 2000'
+		AND itemgb NOT LIKE '%(D)%'
+		AND itemgb NOT LIKE '%(J)%'
+		AND itemgb NOT LIKE '%(F)%'
+		AND itemgb NOT LIKE '%(H)%'
+		AND itemgb NOT LIKE '%(G)%'
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WFT' AS ket,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND grup != 'RG-TANGO BROWNIES CRISPY'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WF 2000' AS ket,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chKatLevel1 = 'W2-Wafer 2000'
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+SELECT wil, CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WAFFLE 2000' AS ket,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grup = 'GN-WAFFLE TANGO 2000' AND kelompok != 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+)
+SELECT wil, ket, Periode, Strata, COUNT(DISTINCT toko) AS LT, SUM(KRT) AS KRT
+FROM (
+	SELECT wil, depo, toko, ket, Periode, KRT,
+		CASE WHEN KRT >= 1000 THEN 1
+			 WHEN KRT >= 500 THEN 2
+			 WHEN KRT >= 100 THEN 3
+			 WHEN KRT >= 50 THEN 4
+			 WHEN KRT >= 30 THEN 5
+			 WHEN KRT >= 10 THEN 6
+			 WHEN KRT >= 5 THEN 7
+			 WHEN KRT < 5 THEN 8
+			 END AS Strata
+	FROM S
+	WHERE ket IN ('WFT EXCLUDE KODE KHUSUS', 'WFT')
+			AND UPPER(toko) NOT LIKE '%PENJUALAN%'
+			AND UPPER(toko) NOT LIKE '%LANGGANAN%'
+			AND UPPER(toko) NOT LIKE '%KONTAN ECOM%'
+			AND UPPER(toko) NOT LIKE '%GEDUNG OT%'
+			AND UPPER(toko) NOT LIKE '%SELISIH%'
+			AND UPPER(toko) NOT LIKE '%CUSTOMER%'
+			AND UPPER(toko) NOT LIKE '% CUST %'
+			AND UPPER(toko) NOT LIKE '%-CUST %'
+	UNION
+	SELECT wil, depo, toko, ket, Periode, KRT,
+		CASE WHEN KRT >= 300 THEN 1
+			 WHEN KRT >= 150 THEN 2
+			 WHEN KRT >= 100 THEN 3
+			 WHEN KRT >= 50 THEN 4
+			 WHEN KRT >= 30 THEN 5
+			 WHEN KRT >= 10 THEN 6
+			 WHEN KRT >= 5 THEN 7
+			 WHEN KRT < 5 THEN 8
+			 END AS Strata
+	FROM S
+	WHERE ket NOT IN ('WFT EXCLUDE KODE KHUSUS', 'WFT')
+			AND UPPER(toko) NOT LIKE '%PENJUALAN%'
+			AND UPPER(toko) NOT LIKE '%LANGGANAN%'
+			AND UPPER(toko) NOT LIKE '%KONTAN ECOM%'
+			AND UPPER(toko) NOT LIKE '%GEDUNG OT%'
+			AND UPPER(toko) NOT LIKE '%SELISIH%'
+			AND UPPER(toko) NOT LIKE '%CUSTOMER%'
+			AND UPPER(toko) NOT LIKE '% CUST %'
+			AND UPPER(toko) NOT LIKE '%-CUST %'
+	) AS T
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+
+WITH S AS (
+-------------------------------------------------------------------------------------------------------------------------------------------- Q2
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WFT' AS ket,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND grup != 'RG-TANGO BROWNIES CRISPY'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		chKatLevel1 AS KET,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chkatlevel1 IN ('W2-Wafer 2000', 'W1-Wafer 2000UP', 'W3-Wafer 500', 'W4-Wafer 1000')
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WAFFLE 2000' AS KET,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grup = 'GN-WAFFLE TANGO 2000' AND kelompok != 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'
+		AND wil LIKE '%JABAR%'
+		AND thn = 2026 AND bln IN (4, 5, 6)
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT 'Q2 26' AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'TANGO 2000' AS KET,
+		SUM(qty_krt)/3 AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE ((chkatlevel1 = 'W2-Wafer 2000') OR (grup = 'GN-WAFFLE TANGO 2000' AND kelompok != 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'))
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND thn = 2026 AND bln IN (4, 5, 6)
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+UNION
+-------------------------------------------------------------------------------------------------------------------------------------------- BULAN
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WFT' AS ket,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grupgab IN ('GGAP-WAFER TANGO', 'GGAW-WAFFLE TANGO') AND grup != 'RG-TANGO BROWNIES CRISPY'
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		chKatLevel1 AS KET,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE chkatlevel1 IN ('W2-Wafer 2000', 'W1-Wafer 2000UP', 'W3-Wafer 500', 'W4-Wafer 1000')
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'WAFFLE 2000' AS KET,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE grup = 'GN-WAFFLE TANGO 2000' AND kelompok != 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+UNION
+--------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+SELECT CONCAT('bln ', CAST(bln AS varchar)) AS Periode,
+		CASE WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+			  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+			  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah') THEN '1101-DP CIREBON'
+			 ELSE depo
+			 END AS depo,
+		CASE WHEN cust IN ('1616-11070801-Andri Halim Gandi', '1616-13918225-GLOBAL JAYA ONE') THEN 'GROUP ANDRI HALIM GANDI'
+			 WHEN cust IN ('7423-15037987-CV ADHIKARI PRIMARIO', '7423-15117151-TOKO DIK DIK') THEN 'GROUP CV ADHIKARI'
+			 WHEN cust IN ('3218-11487700-CV.PERINTIS', '3218-11035193-PASUNDAN', '3218-11481787-TK PRIANGAN') THEN 'GROUP PERINTIS'
+			 WHEN cust IN ('1210-11006542-PT 41 MAKMUR PERKASA', '1210-11030923-DIAN RUSIANA', '1210-11287777-FENDI NUGROHO') THEN 'GROUP PT 41 MAKMUR PERKASA'
+			 WHEN cust IN ('1101-13030162-HAIDE', '1101-13032615-GEA', '1101-13035222-KASDI', '1101-13036162-CV PRIMA JAYA', '1103-13022122-CV.MAJU JADI JAYA', '1104-13129898-RISTA',
+				  '1128-13168587-MIKA', '2204-13025557-HARRIS', '2702-22328400-NURLELA SURADADI', '1101-13030163-CV SETIA JAYA', '7426-15152234-JJ JAYA', '1101-13006777-PRIMA JAYA',
+				  '1101-13030161-ROSID', '1101-13032614-LENI', '1102-13090181-Toko Sumber Berkah')  THEN 'GROUP PRIMA JAYA'
+			 ELSE cust
+			 END AS toko,
+		'TANGO 2000' AS KET,
+		SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE ((chkatlevel1 = 'W2-Wafer 2000') OR (grup = 'GN-WAFFLE TANGO 2000' AND kelompok != 'N8-WAFFLE TANGO WA.HH CHOCOLATE 2000'))
+		AND itemgb NOT IN ('1534-(P)-TANGO BROWNIES CRISPY POUCH 100G 2026', '7272-TANGO BROWNIES CRISPY POUCH 100 GR 2026',
+							'7382-TANGO BROWNIES CRISPY POUCH 100G (RP)', '7357-TANGO BROWNIES CRISPY POUCH 100 GR 2026 (P)',
+							'7271-IMPERIAL CREME ASSORTED POUCH 144 GR 2026')
+		AND grup NOT IN ('GR-WAFFLE TANGO PACKAGE', 'KA-WAFFLE TANGO 20000', 'RK-TANGO EMOJI FESTIVE')
+		AND thn = 2026 AND bln > 6
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4
+)
+SELECT depo, ket, Periode, COUNT(DISTINCT CASE WHEN KRT > 0 THEN toko ELSE NULL END) AS LT, SUM(KRT) AS OMS 
+FROM S
+WHERE UPPER(toko) NOT LIKE '%PENJUALAN%'
+		AND UPPER(toko) NOT LIKE '%LANGGANAN%'
+		AND UPPER(toko) NOT LIKE '%KONTAN ECOM%'
+		AND UPPER(toko) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(toko) NOT LIKE '%SELISIH%'
+		AND UPPER(toko) NOT LIKE '%CUSTOMER%'
+		AND UPPER(toko) NOT LIKE '% CUST %'
+		AND UPPER(toko) NOT LIKE '%-CUST %'
+GROUP BY 1, 2, 3
+
+
+
+
+
+------------------- TOKO 50 KRT UP JABAR
+WITH S AS (
+SELECT cust AS toko,
+		SUM(CASE WHEN bln < 6 THEN qty_krt ELSE 0 END)/6 AS T2_SM1_26,
+		SUM(CASE WHEN bln = 7 THEN qty_krt ELSE 0 END) AS T2_Jul_26,
+		SUM(CASE WHEN bln = 8 THEN qty_krt ELSE 0 END) AS T2_Agt_26
+FROM DtCMOBI.OmsUmum
+WHERE chkatlevel1 = 'W2-Wafer 2000' AND wil LIKE '%JABAR%' AND thn = 2026
+GROUP BY 1
+HAVING T2_SM1_26 >= 50 OR T2_Agt_26 >= 50 OR T2_Jul_26 >= 50
+)
+SELECT wil, depo, cust, 'TANGO 2000' AS Ket,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS Q1_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) THEN qty_krt ELSE 0 END)/3 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN qty_krt ELSE 0 END)/6 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 8 THEN qty_krt ELSE 0 END) AS Agt_26
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT toko FROM S) AS B
+		ON A.cust = B.toko
+WHERE wil LIKE '%JABAR%'
+	  AND (kelompok IN ('G1-TANGO BROWNIES CRISPY 2000', 'L1-TANGO CRISPY ROLL 2000', 'K2-TANGO EMOJI 2000')
+		    OR
+		  grup = 'GN-WAFFLE TANGO 2000'
+		    OR
+		  chKatLevel1 = 'W2-Wafer 2000')
+GROUP BY 1, 2, 3, 4
+--
+UNION
+--
+SELECT wil, depo, cust, 'BTDT' AS Ket,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS Q1_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) THEN qty_krt ELSE 0 END)/3 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN qty_krt ELSE 0 END)/6 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 8 THEN qty_krt ELSE 0 END) AS Agt_26
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT toko FROM S) AS B
+		ON A.cust = B.toko
+WHERE wil LIKE '%JABAR%' AND itemgb LIKE '%BTDT%'
+	  AND (kelompok IN ('G1-TANGO BROWNIES CRISPY 2000', 'L1-TANGO CRISPY ROLL 2000', 'K2-TANGO EMOJI 2000')
+		    OR
+		  grup = 'GN-WAFFLE TANGO 2000'
+		    OR
+		  chKatLevel1 = 'W2-Wafer 2000')
+GROUP BY 1, 2, 3, 4
+--
+UNION
+--
+SELECT wil, depo, cust,
+		CASE WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN chKatLevel2
+			 ELSE kelompok
+			 END AS KP,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS Q1_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) THEN qty_krt ELSE 0 END)/3 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN qty_krt ELSE 0 END)/6 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 8 THEN qty_krt ELSE 0 END) AS Agt_26
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT toko FROM S) AS B
+		ON A.cust = B.toko
+WHERE wil LIKE '%JABAR%'
+	  AND (kelompok IN ('G1-TANGO BROWNIES CRISPY 2000', 'L1-TANGO CRISPY ROLL 2000', 'K2-TANGO EMOJI 2000')
+		    OR
+		  grup = 'GN-WAFFLE TANGO 2000'
+		    OR
+		  chKatLevel1 = 'W2-Wafer 2000')
+GROUP BY 1, 2, 3, 4
+--
+UNION
+--
+SELECT wil, depo, cust, chKatLevel1,
+		SUM(CASE WHEN thn = 2025 THEN qty_krt ELSE 0 END)/12 AS Rt_25,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS Q1_26,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) THEN qty_krt ELSE 0 END)/3 AS Q2_26,
+		SUM(CASE WHEN thn = 2026 AND bln < 7 THEN qty_krt ELSE 0 END)/6 AS SM1_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS Jul_26,
+		SUM(CASE WHEN thn = 2026 AND bln = 8 THEN qty_krt ELSE 0 END) AS Agt_26
+FROM DtCMOBI.OmsUmum AS A
+INNER JOIN (SELECT DISTINCT toko FROM S) AS B
+		ON A.cust = B.toko
+WHERE wil LIKE '%JABAR%'
+	  AND chKatLevel1 = 'W2-Wafer 2000'
+GROUP BY 1, 2, 3, 4
+
+
+
+
+
+---------------------------------- HITUNG SKU CARRIED TANGO 2000 ----------------------------------
+WITH S AS (
+SELECT wil, depo, cust, bln,
+		CASE WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN chKatLevel2
+		ELSE kelompok
+		END AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (chKatLevel1 = 'W2-Wafer 2000'
+			 OR
+			 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%'
+		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%'
+		AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%'
+		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %'
+		AND UPPER(cust) NOT LIKE '%-CUST %'
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4, 5
+UNION
+SELECT wil, depo, cust, bln, 'TANGO 2000' AS SKU, SUM(qty_krt) AS KRT
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (chKatLevel1 = 'W2-Wafer 2000'
+			 OR
+			 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%'
+		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%'
+		AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%'
+		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %'
+		AND UPPER(cust) NOT LIKE '%-CUST %'
+		AND wil LIKE '%JABAR%'
+GROUP BY 1, 2, 3, 4, 5
+)
+SELECT market, bln,
+		(SUM(CASE WHEN SKU != 'TANGO 2000' THEN LT ELSE 0 END)/SUM(CASE WHEN SKU = 'TANGO 2000' THEN LT ELSE 0 END)) AS SKU_Carried,
+		SUM(CASE WHEN SKU = 'TANGO 2000' THEN Omset ELSE 0 END) AS Oms
+FROM (SELECT depo AS market, bln, SKU, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS Omset
+	  FROM S
+	  GROUP BY 1, 2, 3
+	  UNION
+	  SELECT wil AS market, bln, SKU, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS Omset
+	  FROM S
+	  GROUP BY 1, 2, 3
+	  UNION
+	  SELECT 'JABAR' AS market, bln, SKU, COUNT(DISTINCT CASE WHEN KRT > 0 THEN cust ELSE NULL END) AS LT, SUM(KRT) AS Omset
+	  FROM S
+	  GROUP BY 1, 2, 3) AS t
+GROUP BY 1, 2
+
+
+
+SELECT CASE WHEN kelompok = 'G1-TANGO BROWNIES CRISPY 2000' THEN chKatLevel2
+		ELSE kelompok
+		END AS SKU,
+		SUM(CASE WHEN thn = 2026 AND bln IN (1, 2, 3) THEN qty_krt ELSE 0 END)/3 AS KRT_Q1,
+		SUM(CASE WHEN thn = 2026 AND bln IN (4, 5, 6) THEN qty_krt ELSE 0 END)/3 AS KRT_Q2,
+		SUM(CASE WHEN thn = 2026 AND bln = 7 THEN qty_krt ELSE 0 END) AS KRT_7,
+		SUM(CASE WHEN thn = 2026 AND bln = 8 THEN qty_krt ELSE 0 END) AS KRT_8
+FROM DtCMOBI.OmsUmum
+WHERE thn = 2026
+		AND (chKatLevel1 = 'W2-Wafer 2000'
+			 OR
+			 kelompok IN ('K2-TANGO EMOJI 2000', 'L1-TANGO CRISPY ROLL 2000', 'G1-TANGO BROWNIES CRISPY 2000')
+			 OR
+			 grup = 'GN-WAFFLE TANGO 2000'
+			 )
+		AND UPPER(cust) NOT LIKE '%PENJUALAN%'
+		AND UPPER(cust) NOT LIKE '%LANGGANAN%'
+		AND UPPER(cust) NOT LIKE '%KONTAN ECOM%'
+		AND UPPER(cust) NOT LIKE '%GEDUNG OT%'
+		AND UPPER(cust) NOT LIKE '%SELISIH%'
+		AND UPPER(cust) NOT LIKE '%CUSTOMER%'
+		AND UPPER(cust) NOT LIKE '% CUST %'
+		AND UPPER(cust) NOT LIKE '%-CUST %'
+		AND wil LIKE '%JABAR%'
+GROUP BY 1
+
+
+
+
+
